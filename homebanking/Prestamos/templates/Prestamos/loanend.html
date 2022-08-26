@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load customtags %}
+
+{% block title %}ITBANK Homebanking{% endblock %}
+
+{% block style %}{% static 'Cuentas/accstylesheet.css' %}{% endblock %}
+
+{% block bg %}
+<style>
+    body {
+        background-image: url("{% static 'Cuentas/accbg.jpg' %}");
+    }
+</style>
+{% endblock %}
+
+{% block currentuser %}{{name}}{% endblock %}
+
+{% block selloan %}currentsel{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+                <h2 class="card-title text-center">Elija la cuenta en la que desea solicitar el préstamo</h2>
+        </div>
+    </div>
+</div>
+{% for acc in accounts %}
+<div class="container arriba mt-5">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+                <h4 class="card-title titulo p-2">● {{acc.typeid.tipo}}</h4>
+                <h5 class="ml-3 mb-3">Código de cuenta: {{acc.iban}}</h5>
+                <h5 class="ml-3 mb-3">Balance: ${{acc.balance|decim}}</h5>
+                <a class="ml-3 mb-3 h5 text-light titulo p-2" href="{% url 'Prestamos:loanreq' acc.account_id %}">Seleccionar</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

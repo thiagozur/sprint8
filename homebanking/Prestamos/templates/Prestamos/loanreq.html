@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load customtags %}
+
+{% block title %}ITBANK Homebanking{% endblock %}
+
+{% block style %}{% static 'Cuentas/accstylesheet.css' %}{% endblock %}
+
+{% block bg %}
+<style>
+    body {
+        background-image: url("{% static 'Tarjetas/cardbg.jpg' %}");
+    }
+</style>
+{% endblock %}
+
+{% block currentuser %}{{name}}{% endblock %}
+
+{% block selloan %}currentsel{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'Login/newstyles.css' %}">
+<div class="container mt-5">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+            <form method="post" class="row m-2 p-4 col-12 text-center" id="columna_derecha">
+                {% csrf_token %}
+                <div class="container">
+                    <h2 class="p-2 row">Solicitud de préstamos pre-aprobados</h2>
+                    {% for field in loanform %}
+                        {% if forloop.counter == 3 %}
+                            <div id="demo" class="row mb-5">
+                                <label class="col-12 text-left" for="datepicker">Fecha de inicio</label>
+                                {{field}}
+                                <span class="topper" id="calendar"></span>
+                            </div>
+                        {% else %}
+                            <div class="row mb-3 ml-3">
+                                <label for="{{field.auto_id}}">{{field.label}}</label>
+                                {{field}}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <button class="btn btn-primary col-8 mt-5" type="submit">Solicitar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'Login/calendarscript.js' %}"></script>
+<script src="{% static 'Login/calendar_renderer.js' %}"></script>
+{% endblock %}

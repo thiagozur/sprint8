@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}ITBANK Homebanking{% endblock %}
+
+{% block style %}{% static 'Cuentas/accstylesheet.css' %}{% endblock %}
+
+{% block currentuser %}{{name}}{% endblock %}
+
+{% block content %}
+<div class="container arriba mt-5">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+            <h4 class="card-title">Préstamo solicitado exitosamente</h4>
+        </div>
+    </div>
+</div>   
+<div class="container mt-5">
+    <div class="row justify-content-center ml-auto mr-auto titulo">
+        <a href="{% url 'Prestamos:prestamos' %}" class="card-title titulo p-2 m-2 h4 text-light">Ir a préstamos</a>
+    </div>
+</div>
+{% endblock %}

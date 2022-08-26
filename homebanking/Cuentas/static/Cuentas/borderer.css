@@ -1,0 +1,5 @@
+.borderer {
+    border-bottom: 2px solid rgba(37, 34, 94, 0.6);
+    border-right: 2px solid rgba(37, 34, 94, 0.6);
+    border-radius: 5px;
+}

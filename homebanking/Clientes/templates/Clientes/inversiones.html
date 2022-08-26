@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load customtags %}
+
+{% block title %}ITBANK Homebanking{% endblock %}
+
+{% block style %}{% static 'Cuentas/accstylesheet.css' %}{% endblock %}
+{% block optstyle %}{% static 'Cuentas/borderer.css' %}{% endblock %}
+
+{% block bg %}
+    <style>
+        body {
+            background-image: url("{% static 'Cuentas/accbg.jpg' %}");
+        }
+    </style>
+{% endblock %}
+
+{% block currentuser %}{{name}}{% endblock %}
+
+{% block content %}
+    <div class="container arriba mt-4">
+        <div class="row">
+            <div class="card fondo-t col-12 col-lg-3 m-1">
+                <div class="card-body ">
+                    <h5 class="card-title titulo p-2">Dólar Oficial</h5>
+                </div>
+                <div class="card-body row text-center">
+                    <p class="col-5 borderer p-2 mr-4" id="compra-ofic">Compra</p>
+                    <p class="col-5 borderer p-2" id="venta-ofic">Venta</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text borderer p-2" id="var-ofic">Variación</p>
+                    <p class="card-text dater borderer p-2">Actualizado:</p>
+                </div>
+            </div>
+            
+            <div class="card fondo-t col-12 col-lg-3 m-1">
+                <div class="card-body">
+                    <h5 class="card-title titulo p-2">Dólar Blue</h5>
+                </div>
+                <div class="card-body row text-center">
+                    <p class="col-5 borderer p-2 mr-4" id="compra-b">Compra</p>
+                    <p class="col-5 borderer p-2" id="venta-b">Venta</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text borderer p-2" id="var-b">Variación</p>
+                    <p class="card-text dater borderer p-2">Actualizado:</p>
+                </div>
+            </div>
+
+            <!-- Calculadora de inversiones -->
+            <div class="card fondo-t col-12 col-lg-5 m-1">
+                <div class="card-body">
+                    <h5 class="card-title titulo p-2 mb-4">Calculadora de conversiones</h4>
+                    <div class="mb-4">
+                        <select id="dolar-usado" class="input1 form-select text-dark">
+                            <option class="text-dark" value="0">Dólar Oficial</option>
+                            <option class="text-dark" value="1">Dólar Blue</option>
+                            <option class="text-dark" value="3">Contado con liqui</option>
+                            <option class="text-dark" value="4">Dólar Bolsa</option>
+                        </select>   
+                        <select id="calculo" class="input1 form-select text-dark mt-2">
+                            <option class="text-dark" value="0">Dólar a peso</option>
+                            <option class="text-dark" value="1">Peso a dólar</option>
+                        </select>
+                    </div>
+                    <label for="plata">Cantidad a convertir:</label>
+                    <input type= "number" min="0" placeholder="Ingrese una cantidad" id="plata" class="input1 form-control mb-4" value="">
+                    <p class="mb-4" id="result">Resultado:</p>
+                    <button type="button" class="btn btn-primary" onclick="calculo()">Calcular</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card fondo-t col-12 col-lg-3 m-1">
+                <div class="card-body">
+                    <h5 class="card-title titulo p-2">Contado con liqui</h5>
+                </div>
+                <div class="card-body row text-center">
+                    <p class="col-5 borderer p-2 mr-4" id="compra-l">Compra</p>
+                    <p class="col-5 borderer p-2" id="venta-l">Venta</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text borderer p-2" id="var-l">Variación</p>
+                    <p class="card-text dater borderer p-2">Actualizado:</p>
+                </div>
+            </div>
+
+            <div class="card fondo-t col-12 col-lg-3 m-1">
+                <div class="card-body">
+                    <h5 class="card-title titulo p-2">Dólar Bolsa</h5>
+                </div>
+                <div class="card-body row text-center">
+                    <p class="col-5 borderer p-2 mr-4" id="compra-bol">Compra</p>
+                    <p class="col-5 borderer p-2" id="venta-bol">Venta</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text borderer p-2" id="var-bol">Variación</p>
+                    <p class="card-text dater borderer p-2">Actualizado:</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'Clientes/inversiones.js' %}"></script>
+{% endblock %}

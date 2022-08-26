@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}ITBANK Homebanking{% endblock %}
+
+{% block style %}{% static 'Cuentas/accstylesheet.css' %}{% endblock %}
+
+{% block currentuser %}{{name}}{% endblock %}
+
+{% block content %}
+<div class="container arriba mt-5">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+            <h4 class="card-title">Lo lamentamos, esta página aún se encuentra en desarrollo</h4>
+        </div>
+    </div>
+</div>   
+{% endblock %}

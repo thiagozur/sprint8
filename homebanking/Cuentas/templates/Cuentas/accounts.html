@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load customtags %}
+
+{% block title %}ITBANK Homebanking{% endblock %}
+
+{% block style %}{% static 'Cuentas/accstylesheet.css' %}{% endblock %}
+
+{% block bg %}
+<style>
+    body {
+        background-image: url("{% static 'Cuentas/accbg.jpg' %}");
+    }
+</style>
+{% endblock %}
+
+{% block currentuser %}{{name}}{% endblock %}
+
+{% block selacc %}currentsel{% endblock %}
+
+{% block content %}
+{% for acc in accounts %}
+<div class="container arriba mt-5">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+                <h4 class="card-title titulo p-2">● {{acc.typeid.tipo}}</h4>
+                <h5 class="ml-3 mb-3">Código de cuenta: {{acc.iban}}</h5>
+                <h5 class="ml-3 mb-3">Balance: ${{acc.balance|decim}}</h5>
+                <a class="ml-3 mb-3 h5 text-light titulo p-2" href="{% url 'Cuentas:movimientos' acc.account_id %}">Últimos Movimientos</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

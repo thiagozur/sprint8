@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load customtags %}
+
+{% block title %}ITBANK Homebanking{% endblock %}
+
+{% block style %}{% static 'Cuentas/accstylesheet.css' %}{% endblock %}
+
+{% block bg %}
+<style>
+    body {
+        background-image: url("{% static 'Tarjetas/cardbg.jpg' %}");
+    }
+</style>
+{% endblock %}
+
+{% block currentuser %}{{name}}{% endblock %}
+
+{% block selloan %}currentsel{% endblock %}
+
+{% block content %}
+{% for a, l in loans.items %}
+{% with curacc=accs|get_index:forloop.counter0 %}
+        {% for v in l %}
+            <div class="container arriba mt-5">
+                <div class="card w-80 fondo-t">
+                    <div class="card-body">
+                        <h4 class="card-title titulo p-2">● Cuenta de código {{curacc.iban}} ({{curacc.typeid.tipo}})</h4>
+                        <h5 class="ml-3 mb-3 number">Préstamo {{v.loan_type|lower}}</h5>
+                        <h5 class="ml-3 mb-3 number">Monto: ${{v.loan_total|decim}}</h5>
+                        <h5 class="ml-3 mb-3 number">Fecha: {{v.loan_date}}</h5> 
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endwith %}
+{% endfor %}
+<div class="container mt-5">
+    <div class="row justify-content-center ml-auto mr-auto titulo">
+        <a href="{% url 'Prestamos:loanend' %}" class="card-title titulo p-2 m-2 h4 text-light">Solicitar préstamo pre-aprobado</a>
+    </div>
+</div>
+{% endblock %}

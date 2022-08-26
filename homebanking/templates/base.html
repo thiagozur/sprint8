@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% block style %}{% endblock %}">
+    <link rel="stylesheet" href="{% block optstyle %}{% endblock %}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/e8af32318d.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+{% block bg %}
+{% endblock %}
+<style>
+    html,body{
+        overflow-x: hidden;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-7 m-auto">
+                <img style="width: 13rem; height: auto;" src="{% static 'Logo_transparente2.png' %}" class="logo" alt="Logo">
+            </div>
+            <div class="col-sm-3 col-5 m-auto">
+                <div class="dropdown">
+                    <a class="btn btn-secondary bg-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fa-solid fa-user me-1"></i>
+                    {% block currentuser %}{% endblock %}.
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="{% url 'Clientes:inversiones' %}">Inversiones</a></li>
+                    <li><a class="dropdown-item" href="{% url 'Cuentas:empty' %}">Turnos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'Cuentas:empty' %}">Preferencias</a></li>
+                    <li><a class="dropdown-item d-block d-sm-none" href="{% url 'Cuentas:empty' %}">Atención al cliente</a></li>
+                    <li><a class="dropdown-item d-block d-sm-none" href="{% url 'Cuentas:empty' %}">Centro de Ayuda</a></li>
+                    <li><a class="dropdown-item d-block d-sm-none" href="{% url 'Cuentas:empty' %}">Tel.: 0800-3526</a></li>
+                    <li><a class="dropdown-item d-block d-sm-none" href="{% url 'Cuentas:empty' %}">Mis productos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'Clientes:logout' %}">Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container barra">
+        <div class="row">
+            <a class="col-12 col-sm-3 text-center sel p-2 m-auto subrayado {% block selhome %}{% endblock %}" href="{% url 'Clientes:home' %}"><div>Inicio</div> </a>
+            <a class="col-12 col-sm-3 text-center sel p-2 m-auto subrayado {% block selacc %}{% endblock %}" href="{% url 'Cuentas:accounts' %}"><div>Cuentas</div> </a>
+            <a class="col-12 col-sm-3 text-center sel p-2 m-auto subrayado {% block selcard %}{% endblock %}" href="{% url 'Tarjetas:tarjetas' %}"><div>Tarjetas</div></a>
+            <a class="col-12 col-sm-3 text-center sel p-2 m-auto subrayado {% block selloan %}{% endblock %}" href="{% url 'Prestamos:prestamos' %}"><div>Préstamos</div> </a>
+        </div> 
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>
+<footer class="mb-3 d-none d-sm-block">
+    <ul class="redes m-2 p-2">
+        <li class="p-3"><a href="{% url 'Cuentas:empty' %}">
+            <i class="fa-solid fa-users-line me-2"></i>
+                    Atención al cliente
+            </a></li>
+        <li class="p-3"><a href="{% url 'Cuentas:empty' %}">
+            <i class="fa-solid fa-circle-question me-2"></i>
+                    Centro de ayuda
+            </a></li>
+        <li class="p-3"><a href="{% url 'Cuentas:empty' %}">
+            <i class="fa-solid fa-phone me-2"></i>
+                Tel.: 0800-3526
+            </a></li>
+        <li class="p-3"><a href="{% url 'Cuentas:empty' %}">
+            <i class="fa-solid fa-box-archive me-2"></i>
+                    Mis Productos
+            </a></li>
+    </ul>
+    <small>ITBANK - Copyright 2022. Todos los derechos reservados.</small>
+</footer>
+
+</html>

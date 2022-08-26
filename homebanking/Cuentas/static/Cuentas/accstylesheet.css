@@ -1,0 +1,121 @@
+*{
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: white;
+}
+
+body{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+body:before{
+    content: "";
+    width: 100%;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to right, #3ab5b0 0%, #3d99be 31%, #56317a 100%);
+    opacity: 0.8;
+    z-index: -1;
+}
+
+.logo{
+    width: 250px;
+    height: auto;
+}
+
+.barra{
+    background-color: rgba(62, 58, 150, 0.6);
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.blanco{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-family: tahoma;
+} 
+
+header nav ul li a {
+    text-decoration: none;
+    color: #a393c0;
+}
+
+.nolink{
+     text-decoration: none;
+     color: #212529;
+}
+
+.nolink:hover{
+    text-decoration: none;
+    color: #212529;
+}
+
+.formulario{
+    padding-top: 30px;
+}
+.formulario .legal{
+    color: white;
+}
+
+.redes {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+footer{
+    width: 100%;
+    position: static;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+}
+
+footer ul{
+    list-style: none;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    margin: 5px;
+    background-color: rgba(62, 58, 150, 0.6);
+    border-radius: 10px;
+}
+footer a:hover {
+    background-color: rgba(30, 28, 75, 0.6);
+    color: #3d99be;
+}
+
+.sel:hover{
+    background-color: rgba(102, 95, 248, 0.6);
+    border-radius: 5px;
+}
+
+.currentsel{
+    background-color: rgba(37, 34, 94, 0.6);
+    border-radius: 5px;
+}
+
+.subrayado{
+    text-decoration: none;
+}
+
+.subrayado:hover{
+    text-decoration: none;
+}
+
+.fondo-t {
+    background-color: rgba(62, 58, 150, 0.6);
+}
+
+.titulo {
+    background-color: rgba(62, 58, 150, 0.6);
+    border-radius: 5px;
+}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load customtags %}
+
+{% block title %}ITBANK Homebanking{% endblock %}
+
+{% block style %}{% static 'Cuentas/accstylesheet.css' %}{% endblock %}
+
+{% block bg %}
+<style>
+    body {
+        background-image: url("{% static 'Tarjetas/cardbg.jpg' %}");
+    }
+</style>
+{% endblock %}
+
+{% block currentuser %}{{name}}{% endblock %}
+
+{% block selcard %}currentsel{% endblock %}
+
+{% block content %}
+{% for c in cards %}
+<div class="container arriba mt-5">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+                <h4 class="card-title titulo p-2">● Tarjeta de {{c.tipo|tilde}}</h4>
+                <h5 class="ml-3 mb-3 number">Número: **** **** **** {{c.numero|hidenum}}</h5>
+                <h5 class="ml-3 mb-3 numberh hide">Número: {{c.numero}}</h5>
+                <h5 class="ml-3 mb-3 cvv">CVV: ***</h5>
+                <h5 class="ml-3 mb-3 cvvh hide">CVV: {{c.cvv}}</h5>
+                <h5 class="ml-3 mb-3">Marca: {{c.marcaid.marca}}</h5>
+                <h5 class="ml-3 mb-3">Fecha de otorgamiento: {{c.fechaotorgamiento}}</h5>
+                <h5 class="ml-3 mb-3">Fecha de expiración: {{c.fechaexpiracion}}</h5>
+                <button type="button" class="btn toggler ml-3 fondo-t text-light pl-4 pr-4">Mostrar número y CVV</button>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<style>
+    .hide {
+        display: none;
+    }
+</style>
+<script src="{% static 'Tarjetas/numbertoggle.js' %}"></script>
+{% endblock %}

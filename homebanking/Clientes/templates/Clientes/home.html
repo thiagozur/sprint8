@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load customtags %}
+
+{% block title %}ITBANK Homebanking{% endblock %}
+
+{% block style %}{% static 'Clientes/homestylesheet.css' %}{% endblock %}
+
+{% block bg %}
+<style>
+    body {
+        background-image: url("{% static 'Clientes/homebg.jpg' %}");
+    }
+</style>
+{% endblock %}
+
+{% block currentuser %}{{name}}{% endblock %}
+
+{% block selhome %}currentsel{% endblock %}
+
+{% block content %}
+<div class="container arriba">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+            <h1 class="card-title mb-4">Cliente tipo {{tipo}}</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container arriba">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+            <h1 class="card-title mb-4">Cuentas</h1>
+            {% for acc in accounts %}
+                <h4 class="card-title titulo p-2">● {{acc.typeid.tipo}}</h4>
+                <h5 class="ml-3 mb-3">Balance: ${{acc.balance|decim}}</h5>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container arriba">
+    <div class="card w-80 fondo-t">
+        <div class="card-body">
+            <h1 class="card-title mb-4">Tarjetas</h1>
+            {% for c in cards %}
+            <a class="nolink" href="{% url 'Tarjetas:tarjetas' %}"><h5 class="ml-3"><i class="fa-solid fa-credit-card mr-3"></i>Tarjeta de {{c.tipo|tilde}}: **** **** **** {{c.numero|hidenum}}</h5></a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
