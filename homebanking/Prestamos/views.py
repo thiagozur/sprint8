@@ -101,6 +101,7 @@ def loanreq(request, acc):
                 curloan.loan_total = monto
                 curacc.balance += curloan.loan_total
                 curloan.account_id = acc
+                curloan.branch_id = clientobj.branch_id
                 curacc.save()
                 curloan.save()
                 return render(request, 'Prestamos/success.html', {'name' : f'{userobj.first_name} {userobj.last_name[0]}'})

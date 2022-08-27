@@ -10,6 +10,7 @@ class Prestamo(models.Model):
     loan_date = models.TextField()
     loan_total = models.IntegerField(default=fecha)
     account_id = models.IntegerField()
+    branch_id = models.IntegerField(db_column='branch_id', null=True, default=None)
 
     class Meta:
         db_table = 'prestamo'

@@ -105,6 +105,7 @@ class PrestamoSerializer(serializers.ModelSerializer):
             'loan_date',
             'loan_total',
             'account_id',
+            'branch_id',
         ]
 
 class PrestamoViewSet(viewsets.ModelViewSet):
@@ -142,7 +143,7 @@ class PrestamoViewSet(viewsets.ModelViewSet):
         if userobj.is_staff:
             branchid = self.request.query_params.get('sucursal_id')
             if branchid is not None:
-                return super().get_queryset(*args, **kwargs).filter()
+                return super().get_queryset(*args, **kwargs).filter(branch_id=branchid)
             return super().get_queryset(*args, **kwargs)
         else: 
             uname = userobj.first_name
@@ -161,7 +162,6 @@ class PrestamoViewSet(viewsets.ModelViewSet):
                     qset += f'Q(account_id = {i.account_id}) | '
                 else:
                     qset += f'Q(account_id = {i.account_id})'
-            print(qset)
             return super().get_queryset(*args, **kwargs).filter(eval(qset))
 
 class DireccionesSerializer(serializers.ModelSerializer):
@@ -182,6 +182,18 @@ class DireccionesViewSet(viewsets.ModelViewSet):
     queryset = Direcciones.objects.all()
     serializer_class = DireccionesSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        userobj = get_object_or_404(User, username=request.user)
+        if userobj.is_staff:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            response = {'message': 'Create function not allowed for clients.'}
+            return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def get_queryset(self, *args, **kwargs):
         userobj = get_object_or_404(User, username=self.request.user)

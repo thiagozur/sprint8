@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from .forms import LoginForm, NewUserForm
 from django.contrib.auth import authenticate, login as dlogin
 from Clientes.models import Cliente, Empleado
+from Prestamos.models import Prestamo
+from Cuentas.models import Cuenta
 from django.contrib.auth.models import User
 from datetime import datetime
 from random import randrange
@@ -78,6 +80,7 @@ def addtypes(request):
         i.save()
     return HttpResponse('<h1>Tipos añadidos</h1>')
 
+#esta vista fue usada para crear las cuentas de empleado
 def createmp(request):
     emps = Empleado.objects.all()
     for y, i in enumerate(emps):
@@ -101,6 +104,14 @@ def createmp(request):
                 )
             nuser.is_staff = True
             nuser.save()
-
-
     return HttpResponse('<h1>Empleados creados</h1>')
+
+#esta vista fue usada para asociar los prestamos a sus sucursales
+def createbranches(request):
+    loans = Prestamo.objects.all()
+    for i in loans:
+        acc = Cuenta.objects.get(account_id=i.account_id)
+        client = Cliente.objects.get(customer_id=acc.customer_id)
+        i.branch_id = client.branch_id
+        i.save()
+    return HttpResponse('<h1>Sucursales agregadas</h1>')
