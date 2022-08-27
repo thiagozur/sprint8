@@ -25,6 +25,8 @@ from rest_framework.permissions import SAFE_METHODS
 from django.db.models import Q
 from Tarjetas.models import Tarjetas
 from direr.models import Sucursal, Direcciones
+from rest_framework.response import Response
+from rest_framework import status
 
 class IsAdminUserOrReadOnly(permissions.IsAdminUser):
     def has_permission(self, request, view):
@@ -35,7 +37,6 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
         fields = [
-            'customer_id',
             'customer_name',
             'customer_surname',
             'customer_dni',
@@ -69,7 +70,6 @@ class CuentaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cuenta
         fields = [
-            'customer_id',
             'account_id',
             'balance',
             'iban',
@@ -101,7 +101,6 @@ class PrestamoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prestamo
         fields = [
-            'loan_id',
             'loan_type',
             'loan_date',
             'loan_total',
@@ -113,9 +112,37 @@ class PrestamoViewSet(viewsets.ModelViewSet):
     serializer_class = PrestamoSerializer
     permission_classes = [permissions.IsAuthenticated, IsAdminUserOrReadOnly]
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        accid = serializer.data['account_id']
+        amount = serializer.data['loan_total']
+        cuenta = Cuenta.objects.get(account_id=accid)
+        cuenta.balance += int(amount)
+        cuenta.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def destroy(self, request, *args, **kwargs):
+        url = request.get_full_path()
+        url = url.split('/')
+        length = len(url) - 2
+        loanid = url[length]
+        loan = Prestamo.objects.get(loan_id=loanid)
+        acc = Cuenta.objects.get(account_id=loan.account_id)
+        acc.balance -= int(loan.loan_total)
+        acc.save()
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     def get_queryset(self, *args, **kwargs):
         userobj = get_object_or_404(User, username=self.request.user)
         if userobj.is_staff:
+            branchid = self.request.query_params.get('sucursal_id')
+            if branchid is not None:
+                return super().get_queryset(*args, **kwargs).filter()
             return super().get_queryset(*args, **kwargs)
         else: 
             uname = userobj.first_name
@@ -141,7 +168,6 @@ class DireccionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Direcciones
         fields = [
-            'direccionid',
             'calle',
             'numero',
             'ciudad',
@@ -152,7 +178,7 @@ class DireccionesSerializer(serializers.ModelSerializer):
             'branchid',
         ]
 
-class DireccionesViewSet(viewsets.ReadOnlyModelViewSet):
+class DireccionesViewSet(viewsets.ModelViewSet):
     queryset = Direcciones.objects.all()
     serializer_class = DireccionesSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -178,7 +204,6 @@ class SucursalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sucursal
         fields = [
-            'branch_id',
             'branch_number',
             'branch_name',
             'branch_address_id',
@@ -192,7 +217,6 @@ class TarjetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tarjetas
         fields = [
-            'tarjetaid',
             'numero',
             'cvv',
             'fechaotorgamiento',
@@ -210,6 +234,9 @@ class TarjetasViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self, *args, **kwargs):
         userobj = get_object_or_404(User, username=self.request.user)
         if userobj.is_staff:
+            clientid = self.request.query_params.get('customer_id')
+            if clientid is not None:
+                return super().get_queryset(*args, **kwargs).filter(customerid = clientid)
             return super().get_queryset(*args, **kwargs)
         else: 
             uname = userobj.first_name
